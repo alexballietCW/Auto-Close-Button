@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "run": "web-ext run --verbose",
+    "build": "web-ext build"
+  },
+  "dependencies": {
+    "web-ext": "^6.7.0"
+  }
+}
