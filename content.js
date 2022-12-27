@@ -1,13 +1,5 @@
   let anyToolbarButtonSelector = '.page-actions__left.reply-bar-wrapper-top button'
 
-  // function watchAndRun() {
-  //   waitForElement2(anyToolbarButtonSelector).then(() => {
-  //     console.log('%cwaitForElement2', 'color: blue');
-  //   })
-  //   watchAndRun()
-  // }
-
-
   init()
 
   function init() {
@@ -62,12 +54,7 @@
     clickUpdateBtn()
   }
 
-  /**
-   * Detects elements currently on the page as well as newly added elements
-   * Wait for an element before resolving a promise
-   * @param {String} querySelector - Selector of element to wait for
-   * @param {Integer} timeout - Milliseconds to wait before timing out, or 0 for no timeout              
-   */
+  //Detects elements currently on the page as well as newly added elements
   function waitForElement(querySelector) {
     return new Promise((resolve) => {
       if (document.querySelectorAll(querySelector).length)
@@ -107,11 +94,7 @@
   }
   
 
-  /**
-   * Wait for an element to disappear from the document before resolving a promise
-   * @param {String} querySelector - Selector of element to wait for
-   * @param {Integer} timeout - Milliseconds to wait before timing out, or 0 for no timeout
-   */
+  //Wait for an element to disappear from the document before resolving a promise
   function waitForElementToDisappear(querySelector) {
     return new Promise((resolve) => {
       if (!document.querySelectorAll(querySelector).length)
@@ -129,7 +112,6 @@
     });
   }
   
-
   function changeStatus() {
     return new Promise((res, rej) => {
       //1. trigger dropdown
