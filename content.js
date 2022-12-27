@@ -1,8 +1,32 @@
   let anyToolbarButtonSelector = '.page-actions__left.reply-bar-wrapper-top button'
-  waitForElement(anyToolbarButtonSelector).then(() => {
-    console.log('%cFound a toolbar button!!!', 'color: blue');
+
+  // function watchAndRun() {
+  //   waitForElement2(anyToolbarButtonSelector).then(() => {
+  //     console.log('%cwaitForElement2', 'color: blue');
+  //   })
+  //   watchAndRun()
+  // }
 
 
+  init()
+
+  function init() {
+    waitForElement(anyToolbarButtonSelector).then(() => {
+      // console.log('%cInit, found a toolbar button!', 'color: green');
+      addAutoCloseBtn()
+      watch()
+    })
+  }
+
+  function watch() {
+    waitForNewElement(anyToolbarButtonSelector).then(() => {
+      // console.log('%cWatch, Found a toolbar button!', 'color: yellow');
+      addAutoCloseBtn()
+      watch()
+    })
+  }
+
+  function addAutoCloseBtn() {
     //Check if element with id auto-close already exists
     let autoCloseElement = document.getElementById('auto-close');
     if (!autoCloseElement) {
@@ -30,7 +54,7 @@
         runAutoClose()
       })
     }
-  })
+  }
 
   async function runAutoClose() {
     await changeResolution()
@@ -39,20 +63,18 @@
   }
 
   /**
+   * Detects elements currently on the page as well as newly added elements
    * Wait for an element before resolving a promise
    * @param {String} querySelector - Selector of element to wait for
    * @param {Integer} timeout - Milliseconds to wait before timing out, or 0 for no timeout              
    */
-  function waitForElement(querySelector, timeout) {
-    return new Promise((resolve, reject) => {
-      var timer = false;
+  function waitForElement(querySelector) {
+    return new Promise((resolve) => {
       if (document.querySelectorAll(querySelector).length)
         return resolve();
       const observer = new MutationObserver(() => {
         if (document.querySelectorAll(querySelector).length) {
           observer.disconnect();
-          if (timer !== false)
-            clearTimeout(timer);
           return resolve();
         }
       });
@@ -60,29 +82,43 @@
         childList: true,
         subtree: true
       });
-      if (timeout)
-        timer = setTimeout(() => {
-          observer.disconnect();
-          reject();
-        }, timeout);
     });
   }
+  
+
+  //Only detects newly added elements, skip elements already on the page
+  function waitForNewElement(querySelector) {
+    return new Promise((resolve) => {
+      const existingElements = Array.from(document.querySelectorAll(querySelector));
+      const observer = new MutationObserver(() => {
+        const newElements = Array.from(document.querySelectorAll(querySelector)).filter(element => {
+          return !existingElements.some(existingElement => existingElement === element);
+        });
+        if (newElements.length > 0) {
+          observer.disconnect();
+          return resolve();
+        }
+      });
+      observer.observe(document.body, {
+        childList: true,
+        subtree: true
+      });
+    });
+  }
+  
 
   /**
    * Wait for an element to disappear from the document before resolving a promise
    * @param {String} querySelector - Selector of element to wait for
    * @param {Integer} timeout - Milliseconds to wait before timing out, or 0 for no timeout
    */
-  function waitForElementToDisappear(querySelector, timeout) {
-    return new Promise((resolve, reject) => {
-      var timer = false;
+  function waitForElementToDisappear(querySelector) {
+    return new Promise((resolve) => {
       if (!document.querySelectorAll(querySelector).length)
         return resolve();
       const observer = new MutationObserver(() => {
         if (!document.querySelectorAll(querySelector).length) {
           observer.disconnect();
-          if (timer !== false)
-            clearTimeout(timer);
           return resolve();
         }
       });
@@ -90,13 +126,9 @@
         childList: true,
         subtree: true
       });
-      if (timeout)
-        timer = setTimeout(() => {
-          observer.disconnect();
-          reject();
-        }, timeout);
     });
   }
+  
 
   function changeStatus() {
     return new Promise((res, rej) => {

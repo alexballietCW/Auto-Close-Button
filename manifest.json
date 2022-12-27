@@ -2,20 +2,13 @@
     "name": "Auto-Close Button",
     "description": "Adds an auto-close button the top of FreshDesk tickets",
     "manifest_version": 3,
-    "version": "1.0",
+    "version": "1.1",
     "homepage_url": "https://github.com/alexballietCW/Auto-Close-Button",
-
-    "permissions": [],
-    "host_permissions": [
-        "https://carvir.freshdesk.com/*"
-    ],
-    "content_scripts": [
-        {
-            "matches": [
+    "content_scripts": [{
+        "matches": [
             "https://carvir.freshdesk.com/*",
             "https://support.carvir.net/*"
         ],
-            "js": ["content.js"]
-        }
-    ]
+        "js": ["content.js"]
+    }]
 }
