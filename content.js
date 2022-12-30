@@ -71,7 +71,6 @@
       });
     });
   }
-  
 
   //Only detects newly added elements, skip elements already on the page
   function waitForNewElement(querySelector) {
@@ -92,7 +91,6 @@
       });
     });
   }
-  
 
   //Wait for an element to disappear from the document before resolving a promise
   function waitForElementToDisappear(querySelector) {
@@ -111,9 +109,9 @@
       });
     });
   }
-  
+
   function changeStatus() {
-    return new Promise((res, rej) => {
+    return new Promise((res) => {
       //1. trigger dropdown
       let dropdown = document.querySelector('div[data-test-id="Status"] .ember-power-select-trigger')
       dropdown.dispatchEvent(new MouseEvent('mousedown'));
@@ -142,7 +140,7 @@
   }
 
   function changeResolution() {
-    return new Promise((res, rej) => {
+    return new Promise((res) => {
       //1. trigger dropdown
       let resolutionDropdown = document.querySelector('div[data-test-id="Ticket Resolution Type"] .ember-power-select-trigger')
       resolutionDropdown.dispatchEvent(new MouseEvent('mousedown'));
